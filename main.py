@@ -13,6 +13,7 @@ from datetime import datetime,date, time
 from src.ui.Cadapp import Ui_CadApp
 from src.ui.MainWindow import Ui_MainWindow
 from src.ui.LancAbastecimento import Ui_LancAbastecimento
+from src.ui.LancManutencao import Ui_LancManutencao
 from src.ui.DisplaySearch import Ui_DisplaySearch
 from src.ui.SelectThema import Ui_SelectThema
 from src.ui.BootingSystem import Ui_booting_system
@@ -713,6 +714,22 @@ class LancAbastecimento(QDialog, Ui_LancAbastecimento):
             event.accept()  # Aceita o fechamento da janela
             self.destroy()
 
+class LancManutencao(QDialog, Ui_LancManutencao):
+    def __init__(self, worket: Worket) -> None:
+        super().__init__(parent=None)
+        self.worket = worket
+        
+        try:
+            self.setupUi(self)
+        except Exception as e:
+
+            reply = QMessageBox.question(self, 'Confirmar Saída',
+                                     f'Erro ao inicializar LancAbastecimento: {e}',
+                                     QMessageBox.Yes)
+
+        self.setWindowTitle(f"Lançamento de Manutenção - Controle de Entregas{__version__}")
+
+
 class CadastroAplicativos(QDialog,Ui_CadApp):
     def __init__(self, worket: Worket) -> None:
         super().__init__(parent=None)
@@ -1157,6 +1174,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.actionAplicativos.triggered.connect(lambda: CadastroAplicativos(self.worket).show())
         self.actionAbastecimento.triggered.connect(lambda: LancAbastecimento(self.worket).exec())
+        self.actionManutencao.triggered.connect(lambda: LancManutencao(self.worket).exec())
         self.actionTema.triggered.connect(lambda: SelectThema(self.worket).exec())
 
     @Slot(str)

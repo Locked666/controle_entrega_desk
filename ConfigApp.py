@@ -9,7 +9,7 @@ global USERNAME_INI
 global PASSWORD_INI
 
 
-__version__= '1.0.0.3'
+__version__= '1.0.0.4'
 
 PATH_CONFIG_INI = 'config.ini'
 
